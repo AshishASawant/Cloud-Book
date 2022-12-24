@@ -1,0 +1,10 @@
+#root{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rebeccapurple;
+    min-height: 100vh;
+}
+.App{
+    width: 100%;
+}
