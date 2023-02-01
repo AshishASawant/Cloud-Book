@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { json, useNavigate } from 'react-router-dom'
+import {  useNavigate } from 'react-router-dom'
+import swal from 'sweetalert';
 
 const Login = () => {
     const navigate=useNavigate()
@@ -12,9 +13,13 @@ const Login = () => {
         'Content-Type': 'application/json'
       },body:JSON.stringify(user)})
       let json=await data.json()
-      if(json.msg){
+      if(json.success){
+        swal("Login Successful", "", "success");
         localStorage.setItem('token',json.token)
         navigate('/home')
+      }
+      else{
+        swal("Login Failed", json.msg, "error");
       }
     }
     const handelonchange=async(e)=>{
@@ -22,7 +27,7 @@ const Login = () => {
       
     }
   return (
-  <div className="mt-[4rem]">
+  <div className="mx-4">
     <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
       <div className="xl:w-10/12">
         <div className="block bg-white shadow-lg rounded-lg">

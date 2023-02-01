@@ -22,7 +22,7 @@ router.post(
     // Finds the validation errors in this request and wraps them in an object with handy functions
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array(),success:false});
     }
 
     //if the input is correct:try
@@ -30,7 +30,7 @@ router.post(
       // check if the user with this email already exists
       let register = await User.findOne({ email: req.body.email });
       if (register) {
-        return res.send("User with this email already exists");
+        return res.json({msg:"User with this email already exists",success:false});
       }
       
 
@@ -48,11 +48,11 @@ router.post(
         //creating a token for the user
         const token = jwt.sign({id:user.id}, jwtSecretkey);
 
-        res.json({ msg: "User is successfully registered", user,token });
+        res.json({ msg: "User is successfully registered",success:true,token});
       });
 
     } catch (error) {
-      res.send("Internal server error");
+      res.json({msg:"Internal server error",success:false})
       console.log(error);
     }
   }
@@ -62,14 +62,14 @@ router.post(
 router.post('/login',body("email","Enter a valid email").isEmail(),async(req,res)=>{
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400).json({ errors: errors.array(),success:false });
   }
 
   try {
     let loginuser=await User.findOne({email:req.body.email})
     //if the user doesnot exists
     if(!loginuser){
-      return res.send('User with this email does not exists')
+      return res.send({msg:'User with this email does not exists',success:false})
     }
 
     //comparing the password using bycrypt
@@ -78,15 +78,15 @@ router.post('/login',body("email","Enter a valid email").isEmail(),async(req,res
     // if the user is authentic send a authtoken
     if (authuser){
       let token=jwt.sign({id:loginuser.id},jwtSecretkey)
-      res.json({msg:'success',token})
+      res.json({success:'true',token})
     }
     else{
-      res.send("Please login with correct credentials")
+      res.json({msg:"Please login with correct credentials",success:false})
     }
 
   } catch (error) {
     console.log(errors)
-    res.send("Internal server error")
+    res.json({msg:"Internal server error",success:false})
   }
 })
 

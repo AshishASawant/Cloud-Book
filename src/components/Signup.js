@@ -1,5 +1,6 @@
 import React ,{useState} from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import swal from "sweetalert";
 
 
 const Signup = () => {
@@ -14,7 +15,13 @@ const Signup = () => {
     },body:JSON.stringify(user)})
     let json=await data.json()
     console.log(json)
+    if(json.success){
+      swal("User created", "", "success");
       navigate('/login')
+    }
+    else{
+      swal(json.msg || json.errors[0].msg, "", "error");
+    }
   }
   const handelonchange=async(e)=>{
     setUser({...user,[e.target.id]:e.target.value})
@@ -22,7 +29,7 @@ const Signup = () => {
 
     const navigate=useNavigate()
   return (
-    <div className="mt-[5rem] flex justify-center items-center flex-wrap  g-6 text-gray-800">
+    <div className="mx-4 flex justify-center items-center flex-wrap g-6 text-gray-800">
       <div className="xl:w-10/12 ">
         <div className="block bg-white shadow-lg rounded-lg">
           <div className="lg:flex lg:flex-wrap g-0">

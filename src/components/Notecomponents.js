@@ -20,7 +20,7 @@ const Notecomponents = (props) => {
 
   return (
     <div className="col-sm-6 my-2">
-      <div className="card">
+      <div className="card glass">
         <div className="card-body">
           <h5 className="card-title text-2xl font-bold">{title}</h5>
           <p className="card-text">

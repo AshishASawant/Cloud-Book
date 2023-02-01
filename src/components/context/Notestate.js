@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Notecontext from "./noteContext";
+import swal from "sweetalert";
+
 const Notestate = (props) => {
 
   const [notes, setNotes] = useState([]);
@@ -34,10 +36,24 @@ const Notestate = (props) => {
   };
 
   const deleteNote = (noteid) => {
-    fetch(`${url}notes/deletenote/${noteid}`,{method:'DELETE',headers:{
-      "Content-Type": "application/json",
-      "auth-token":localStorage.getItem('token')
-    }}).then(()=>getNotes())
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this note!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        swal("Your note has been deleted!", {
+          icon: "success",
+        });
+        fetch(`${url}notes/deletenote/${noteid}`,{method:'DELETE',headers:{
+          "Content-Type": "application/json",
+          "auth-token":localStorage.getItem('token')
+        }}).then(()=>getNotes())
+      } 
+    });
   };
 
   const updateNote = async(newNote) => {
