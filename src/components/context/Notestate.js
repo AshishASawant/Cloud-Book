@@ -5,7 +5,7 @@ import swal from "sweetalert";
 const Notestate = (props) => {
 
   const [notes, setNotes] = useState([]);
-  const url = "http://localhost:5000/api/";
+  const url = "https://cloudbook-backend-q9wnf73k6-ashishasawant.vercel.app/api/";
 
   //fetch all user specific notes
   const getNotes = async() => {

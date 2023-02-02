@@ -10,7 +10,7 @@ const Signup = () => {
   const handelonsubmit=async(e)=>{
     e.preventDefault()
     console.log(user)
-    const data= await fetch('http://localhost:5000/api/users/signup',{method:'POST',headers:{
+    const data= await fetch('https://cloudbook-backend-q9wnf73k6-ashishasawant.vercel.app/api/users/signup',{method:'POST',headers:{
       'Content-Type': 'application/json'
     },body:JSON.stringify(user)})
     let json=await data.json()
