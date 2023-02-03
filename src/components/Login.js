@@ -2,17 +2,21 @@ import React, { useState } from 'react'
 import {  useNavigate } from 'react-router-dom'
 import swal from 'sweetalert';
 
-const Login = () => {
+const Login = ({setProgress}) => {
     const navigate=useNavigate()
 
     const [user, setUser] = useState({email:"",password:""})
 
     const handelonsubmit=async(e)=>{
+      setProgress(10)
       e.preventDefault()
+      setProgress(20)
       const data= await fetch('https://cloudbook-backend-q9wnf73k6-ashishasawant.vercel.app/api/users/login',{method:'POST',headers:{
         'Content-Type': 'application/json'
       },body:JSON.stringify(user)})
+      setProgress(50)
       let json=await data.json()
+      setProgress(80)
       if(json.success){
         swal("Login Successful", "", "success");
         localStorage.setItem('token',json.token)
@@ -21,6 +25,7 @@ const Login = () => {
       else{
         swal("Login Failed", json.msg, "error");
       }
+      setProgress(100)
     }
     const handelonchange=async(e)=>{
       setUser({...user,[e.target.id]:e.target.value})

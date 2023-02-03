@@ -5,7 +5,7 @@ import Notecomponents from "./Notecomponents";
 
 
 
-const Home=()=>{
+const Home=({setProgress})=>{
     let clickModal = useRef(null);
     const navigate=useNavigate()
     const context = useContext(noteContext)
@@ -31,17 +31,18 @@ const Home=()=>{
         e.preventDefault()
         document.getElementById('noteform').reset()
         addNote(newNote)
+        setNewnote({title:'',description:'',id:""})
     }
 
     return(
-        <div className="mt-[4rem] w-[90%] flex items-center flex-column rounded-md">
+        <div className="mt-[4rem] w-[90%] flex items-center flex-column rounded-md pb-10">
         <form onSubmit={handelonsubmit} id="noteform"className="flex space-y-5 flex-col justify-center items-center mb-4 w-[100%] ">
             <input onChange={handelonchange}  type="text" name="title" id="title" placeholder="Title" className="w-full  shadow-none border border-2 remove-b border-slate-400 rounded-md p-2 mt-4 text-xl glass"  autoFocus minLength='3' />
             <textarea onChange={handelonchange}  name="description" id="description" cols="30" rows="10" placeholder="Decription" className="w-full remove-b border-4 border-slate-400 rounded-md glass p-2 mt-2 text-xl"></textarea>
             <button  type="submit" className="m-3 glass-btn text-xl bg-green-400 w-full  rounded-md p-2 ">Add Note</button>
         </form>
         <hr className="border border-4"/>
-        <h1 className="text-white text-[2.4rem] ml-4">Your Notes</h1>
+        <h1 className="text-slate-700 text-[2.4rem] ml-4">Your Notes</h1>
         <hr className="border border-4"/>
         <div className="row w-[100%]">
         {notes.length===0?<h1 className="text-white text-xl m-3">No Notes Available</h1>:notes.map(note=>{

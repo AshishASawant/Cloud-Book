@@ -3,18 +3,20 @@ import { useNavigate } from 'react-router-dom'
 import swal from "sweetalert";
 
 
-const Signup = () => {
+const Signup = ({setProgress}) => {
 
   const [user, setUser] = useState({name:"",email:"",password:""})
 
   const handelonsubmit=async(e)=>{
+    setProgress(10)
     e.preventDefault()
-    console.log(user)
+    setProgress(20)
     const data= await fetch('https://cloudbook-backend-q9wnf73k6-ashishasawant.vercel.app/api/users/signup',{method:'POST',headers:{
       'Content-Type': 'application/json'
     },body:JSON.stringify(user)})
+    setProgress(50)
     let json=await data.json()
-    console.log(json)
+    setProgress(80)
     if(json.success){
       swal("User created", "", "success");
       navigate('/login')
@@ -22,6 +24,7 @@ const Signup = () => {
     else{
       swal(json.msg || json.errors[0].msg, "", "error");
     }
+    setProgress(100)
   }
   const handelonchange=async(e)=>{
     setUser({...user,[e.target.id]:e.target.value})

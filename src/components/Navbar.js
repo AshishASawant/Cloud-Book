@@ -1,23 +1,29 @@
 import React from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const [navColor, setNavColor] = useState(false)
+
+  window.addEventListener("scroll",()=>{
+    window.scrollY>=40?setNavColor(true):setNavColor(false)
+  })
 
   return (
-    <nav className="px-2 sm:px-4 py-2.5  fixed w-full z-20 top-0 left-0">
+    <nav className={`px-2 sm:px-4 py-2.5  fixed w-full z-20 top-0 left-0 duration-300 ${navColor?"bg-slate-800":""}`}>
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-        <a href="https://flowbite.com/" className="flex items-center">
+        <div className="flex items-center ">
           <img
             src="https://flowbite.com/docs/images/logo.svg"
             className="h-6 mr-3 sm:h-9"
             alt="Flowbite Logo"
           />
-          <span className="self-center text-xl font-semibold whitespace-nowrap ">
+          <span className="self-center text-xl font-semibold whitespace-nowrap text-blue-700">
             CloudBook
           </span>
-        </a>
+        </div>
         {!localStorage.getItem("token") ? (
           // <div className="flex  md:order-2 space-x-4">
           //   <button
